@@ -202,42 +202,4 @@ public class Utils {
 
         return numeroDias;
     }
-    
-    static String entrarCadena(String missatgeExplicatiu){
-        
-        String cadena;
-        
-        Scanner in = new Scanner ( System.in );
-        
-        System.out.println ( missatgeExplicatiu );
-        cadena = in.nextLine();
-        
-        return cadena;
-    }
-    
-    static String entrarDataAmbDef(String missatgeExplicatiu, String defaultValue){
-        
-         String cadena;
-        
-        do {
-            cadena = entrarCadena ( missatgeExplicatiu );
-            if ( cadena.length() == 0 ) return defaultValue;  
-            if ( esData(cadena )) return cadena;
-        } while (true); 
-    }      
-
-    static boolean confirmarAmbDef(String missatgeExplicatiu, char defaultValue){
-        
-        String cadena;       
-        
-        do {
-            cadena = entrarCadena ( missatgeExplicatiu ).toLowerCase();
-            if ( cadena.length() == 0 && defaultValue != '\0' ) 
-                return (defaultValue == 's' 
-                    ||  defaultValue == 'S');
-            if ( cadena.startsWith("s") ) return true;
-            if ( cadena.startsWith("n") ) return false;     
-            
-        }while ( true );
-    }
 }
