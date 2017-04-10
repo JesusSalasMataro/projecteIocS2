@@ -9,12 +9,46 @@ package ProjecteFinal;
  *
  * @author Dani
  */
-public class Factura {
-    public float preuParcela = 15f;
-    public float preuAdult = 6.80f;
-    public float preuMenor = 5.5f;
-    public float preuCotxe = 6f;
-    public float preuMoto = 4.3f;
-    public float preuElec = 6f;
-    public float preuAigua = 5f;
+public class Factura {    
+    public float preuTotalParcela;
+    public float preuTotalAdults;
+    public float preuTotalMenors;
+    public float preuTotalCotxe;
+    public float preuTotalMoto;
+    public float preuTotalElec;
+    public float preuTotalAigua;
+    
+    public Factura (Parcela parcela, String diaEntrada, String diaSortida, int diesTotals, Tarifa tarifa) {
+        
+        //Calculem imports
+        preuTotalParcela = tarifa.RetornaPreuParcela() * diesTotals;
+        preuTotalAdults = tarifa.RetornaPreuAdult() * parcela.numAdults;
+        preuTotalMenors = tarifa.RetornaPreuMenor() * parcela.numMenors;
+        
+        if (parcela.cotxe == true) {
+            preuTotalCotxe = diesTotals * tarifa.RetornaPreuCotxe();
+        } else {
+            preuTotalCotxe = 0;
+        }
+        if (parcela.moto == true) {
+            preuTotalMoto = diesTotals * tarifa.RetornaPreuMoto();
+        } else {
+            preuTotalMoto = 0;
+        }
+        if (parcela.xarxaElectricitat == true) {
+            preuTotalElec = diesTotals * tarifa.RetornaPreuElec();
+        } else {
+            preuTotalElec = 0;
+        }
+        if (parcela.aiguaCorrent == true) {
+            preuTotalAigua = diesTotals * tarifa.RetornaPreuAigua();
+        } else {
+            preuTotalAigua = 0;
+        }       
+    }
+    
+    public float CalcularTotalFactura() {
+        return preuTotalParcela + preuTotalAdults + preuTotalMenors + preuTotalCotxe + preuTotalMoto + preuTotalElec + preuTotalAigua;
+    }
+    
 }
