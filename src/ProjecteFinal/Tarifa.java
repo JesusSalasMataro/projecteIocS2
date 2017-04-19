@@ -10,13 +10,13 @@ package ProjecteFinal;
  * @author Dani
  */
 public class Tarifa {
-    private float preuParcela = 15f;
-    private float preuAdult = 6.80f;
-    private float preuMenor = 5.5f;
-    private float preuCotxe = 6f;
-    private float preuMoto = 4.3f;
-    private float preuElec = 6f;
-    private float preuAigua = 5f;
+    private float preuParcela;
+    private float preuAdult;
+    private float preuMenor;
+    private float preuCotxe;
+    private float preuMoto;
+    private float preuElec;
+    private float preuAigua;
     
     public Tarifa (int tipusTarifa) {
         if (tipusTarifa == 1) {

@@ -21,16 +21,24 @@ public class BibliotecaInterficieUsuari {
                             "**************************");
     }
     
-    static int mostrarMenu (String opcio1, String opcio2, String opcio3){
-        int seleccio;
+    static int mostrarMenu (String titolMenu, String[] opcions, String tornarSortir){
+        int seleccio, numOpcions;
         Scanner scanner = new Scanner(System.in);
         // Deberíamos usarla para todos los menús, según número de opciones
-        System.out.println("Quin color de cinturó té?:");
-        System.out.println(opcio1 + " (1)");
-        System.out.println(opcio2 + " (2)");
-        System.out.println(opcio3 + " (3)");
-        System.out.print(":");
-        seleccio = scanner.nextInt();
+        System.out.println(titolMenu);
+        
+        numOpcions = opcions.length;
+        for (int i = 1; i <= numOpcions; i++) {
+            System.out.println(opcions[i] + " (" + String.valueOf(i) + ")");
+        }
+        
+        System.out.println(tornarSortir + " (0)");
+        
+        seleccio = -1;
+        while (seleccio < 0 || seleccio > numOpcions) {
+            seleccio = scanner.nextInt();
+        }
+        
         return seleccio;
     }
     
@@ -41,19 +49,24 @@ public class BibliotecaInterficieUsuari {
     }
     
     static void missatgeError (){
-        System.out.println("Hi ha hagut un error");
+        //TODO: cambiar a paràmetro y hacer de llamar la atencion mas
+        System.out.println("*********Hi ha hagut un error**********");
     }
     
     static void missatgeExit (){
+        //TODO: cambiar a paràmetro y hacer de llamar la atencion mas
         System.out.println("L'execució s'ha realitzat amb èxit");
         
     }
     
-    static void textVisible (String premEntrar){
-        // no se como poner que tenga que clicar enter para llamar a la función afegirFiles()
-        /*if ( premEntrar == ENTRAR)
-        También podría hacerlo con un do, pero entonces la función sería boolean
-        */
+    static void esperarEntrar (){
+        
+        Scanner scanner = new Scanner(System.in);
+        String tecla = scanner.nextLine();
+        
+        while (!tecla.equals("")) {
+            tecla = scanner.nextLine();
+        }            
     }
     
     

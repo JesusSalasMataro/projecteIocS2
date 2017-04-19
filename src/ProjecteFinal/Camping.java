@@ -10,5 +10,11 @@ package ProjecteFinal;
  * @author Dani
  */
 public class Camping {
+    private final int MAX_PARCELES = 15;
+    
     public Parcela[] parceles;
+    
+    public Camping() {
+        parceles = new Parcela[MAX_PARCELES];
+    }
 }
