@@ -16,5 +16,10 @@ public class Camping {
     
     public Camping() {
         parceles = new Parcela[MAX_PARCELES];
+        
+        for (int i = 0; i < MAX_PARCELES; i++) {
+            parceles[i] = new Parcela();
+            parceles[i].id = i;
+        }
     }
 }

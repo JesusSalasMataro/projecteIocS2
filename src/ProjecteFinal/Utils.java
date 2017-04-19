@@ -202,4 +202,11 @@ public class Utils {
 
         return numeroDias;
     }
+    
+    public static int demanarEnter() {
+        Scanner scanner = new Scanner(System.in);
+        int enter = scanner.nextInt();
+        
+        return enter;
+    }
 }

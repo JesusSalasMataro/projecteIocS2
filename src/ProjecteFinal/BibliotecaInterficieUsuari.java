@@ -21,29 +21,26 @@ public class BibliotecaInterficieUsuari {
                             "**************************");
     }
     
-    static int mostrarMenu (String titolMenu, String[] opcions, String tornarSortir){
+    static int mostrarMenu (String[] opcions, String tornarSortir){
         int seleccio, numOpcions;
-        Scanner scanner = new Scanner(System.in);
-        // Deberíamos usarla para todos los menús, según número de opciones
-        System.out.println(titolMenu);
-        
+
         numOpcions = opcions.length;
-        for (int i = 1; i <= numOpcions; i++) {
-            System.out.println(opcions[i] + " (" + String.valueOf(i) + ")");
+        for (int i = 0; i < numOpcions; i++) {
+            System.out.println(opcions[i] + " (" + String.valueOf(i + 1) + ")");
         }
         
         System.out.println(tornarSortir + " (0)");
         
         seleccio = -1;
         while (seleccio < 0 || seleccio > numOpcions) {
-            seleccio = scanner.nextInt();
+            seleccio = Utils.demanarEnter();
         }
         
         return seleccio;
     }
     
-    static void afegirFiles (){
-        for (int i = 0; i < 20; i++){
+    static void afegirFiles (int numFiles){
+        for (int i = 0; i < numFiles; i++){
             System.out.println("");
         } 
     }

@@ -7,7 +7,7 @@ package ProjecteFinal;
  */
 public class GestorDadesCamping {
     
-    public int primeraParcelaBuida (Camping camping, int idParcela) {
+    public static int primeraParcelaBuida (Camping camping, int idParcela) {
         boolean parcelaBuida = false;
         int nombreParceles = camping.parceles.length;
         int idPrimeraParcelaBuida = -1;
