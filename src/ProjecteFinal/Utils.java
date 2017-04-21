@@ -205,6 +205,7 @@ public class Utils {
     
     public static int demanarEnter() {
         Scanner scanner = new Scanner(System.in);
+        
         int enter = scanner.nextInt();
         
         return enter;

@@ -68,45 +68,38 @@ public class Programa {
     
     public static void mostrarMenuRegistreClient(Camping camping) {
         int opcio;
-        //TODO: rellenar titulo y opciones
+        
         String[] opcionsRegistre = new String[2];
         opcionsRegistre[0] = "Primera Parcel·la Buida";
-        opcionsRegistre[1] = "";
+        opcionsRegistre[1] = "Registre Parcel·la";
         
-        BibliotecaInterficieUsuari.mostraTitol("asdjd");
+        BibliotecaInterficieUsuari.mostraTitol("Registre Client");
         opcio = BibliotecaInterficieUsuari.mostrarMenu(opcionsRegistre, "Tornar");
         
         if (opcio == 1) {
-            BibliotecaInterficieUsuari.mostraTitol("Parcela vacia");
-            int seguentParcela = 0;
-            int numParcelesVisualitzades = 0;
+            BibliotecaInterficieUsuari.mostraTitol("Primera Parcel·la buida");
+            GestorDadesCamping.mostraPriParBuida(camping);
             
-            while (seguentParcela != -1) {
-                seguentParcela = GestorDadesCamping.primeraParcelaBuida(camping, seguentParcela);                
-                
-                if (numParcelesVisualitzades % 5 != 0 && seguentParcela != -1) {
-                    System.out.print(",");
-                }
-                
-                if (seguentParcela != -1) {
-                    System.out.print("\t" + Integer.toString(seguentParcela));
-                    numParcelesVisualitzades++;
-
-                    if (numParcelesVisualitzades % 5 == 0) {
-                        System.out.println();
-                    }                  
-                }
-
-                if (seguentParcela != -1) {
-                    seguentParcela++;
-                }
-            }
-            
-            System.out.println();
-            
-        } else {
-            //Registro parcela
+        } else if (opcio == 2){
+            BibliotecaInterficieUsuari.mostraTitol("Registre Parcel·la");
+            GestorDadesCamping.entradaParcela(camping);
         }
     }
     
+    public static void mostrarSortidaClient(Camping camping, Tarifa tarifa){
+        int numPar, dataSortida;
+        String data;
+        System.out.print("Número Parcel·la: ");
+        numPar = Utils.demanarEnter();
+        data = BibliotecaInterficieUsuari.entrarCadena("Data Sortida: ");
+        dataSortida = Utils.convertirStringDataAInt(data);
+        GestorDadesCamping.procesFactura(camping, numPar, dataSortida, tarifa);
+        camping.parceles[numPar].pagat = true;
+        //TODO: si dataSortida = dataAvui parcela a 0, si no dejar igual.
+        BibliotecaInterficieUsuari.missatgeExit();
+        System.out.println("prem 'Entrar' per a continuar");
+        BibliotecaInterficieUsuari.esperarEntrar();
+        Programa.mostrarMenuPrincipal(camping);
+        
+    }
 }

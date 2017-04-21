@@ -51,7 +51,7 @@ public class GestorDadesCamping {
         camping.parceles[idParcela].aiguaCorrent = false;
     }
     
-    public void registreParcela (Camping camping, int idParcela, int dataEntrada, int numAdults, int numMenors, boolean cotxe, boolean moto, boolean xarxaElec, boolean aigua) {
+    public static void registreParcela (Camping camping, int idParcela, int dataEntrada, int numAdults, int numMenors, boolean cotxe, boolean moto, boolean xarxaElec, boolean aigua) {
         camping.parceles[idParcela].dataEntrada = dataEntrada;
         camping.parceles[idParcela].numAdults = numAdults;
         camping.parceles[idParcela].numMenors = numMenors;
@@ -59,9 +59,10 @@ public class GestorDadesCamping {
         camping.parceles[idParcela].moto = moto;
         camping.parceles[idParcela].xarxaElectricitat = xarxaElec;
         camping.parceles[idParcela].aiguaCorrent = aigua;
+        camping.parceles[idParcela].parcelaBuida = false;
     }
     
-    public void procesFactura(Camping camping, int idParcela, int dataPartida, Tarifa tarifa) {
+    public static void procesFactura(Camping camping, int idParcela, int dataPartida, Tarifa tarifa) {
         camping.parceles[idParcela].dataSortida = dataPartida;
         
         String diaEntrada;
@@ -95,5 +96,99 @@ public class GestorDadesCamping {
         System.out.println("Aigua \t\t\t\t" + tarifa.RetornaPreuAigua() + "\t\t" + factura.preuTotalAigua);
         System.out.println("============================================================================");
         System.out.println("\t\t\t\t\t\t Total a pagar: " + (factura.CalcularTotalFactura()));  
+    }
+    
+    public static void mostraPriParBuida (Camping camping){
+        System.out.println("****************************************************************************");
+        System.out.print("**\t\t\t");
+        System.out.print("Llista de parcel·les buides");
+        System.out.println("\t\t\t**");
+        System.out.println("****************************************************************************");
+        System.out.println();
+        System.out.println("Data: " + Utils.obtenirDataAvui() + "\tHora: " + Utils.obtenirHoraAra());
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.println("Els números de les parcel·les buides són:");
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.println();
+        int seguentParcela = 0;
+        int numParcelesVisualitzades = 0;
+
+        while (seguentParcela != -1) {
+            seguentParcela = GestorDadesCamping.primeraParcelaBuida(camping, seguentParcela);                
+
+            if (numParcelesVisualitzades % 5 != 0 && seguentParcela != -1) {
+                System.out.print(",");
+            }
+
+            if (seguentParcela != -1) {
+                System.out.print("\t" + Integer.toString(seguentParcela));
+                numParcelesVisualitzades++;
+
+                if (numParcelesVisualitzades % 5 == 0) {
+                    System.out.println();
+                }                  
+            }
+
+            if (seguentParcela != -1) {
+                seguentParcela++;
+            }
+        }
+            
+        System.out.println();
+        System.out.println("----------------------------------------------------------------------------");
+        System.out.println("prem 'Entrar' per a continuar");
+        BibliotecaInterficieUsuari.esperarEntrar();
+        Programa.mostrarMenuRegistreClient(camping);
+    }
+    
+    public static void entradaParcela (Camping camping){
+        int numPar, dataInt, numAdults, numMenors, cotxe, moto, elec, aigua;
+        String data;
+        boolean cotxeBool, motoBool, elecBool, aiguaBool;
+        cotxeBool = motoBool = elecBool = aiguaBool = false;
+        cotxe = moto = elec = aigua = -1;
+        System.out.print("Número Parcel·la: ");
+        numPar = Utils.demanarEnter();
+        data = BibliotecaInterficieUsuari.entrarCadena("Data entrada(dd/mm/aaaa): ");
+        dataInt = Utils.convertirStringDataAInt(data);
+        System.out.print("Número Adults: ");
+        numAdults = Utils.demanarEnter();
+        System.out.print("Número Menors: ");
+        numMenors = Utils.demanarEnter();
+        System.out.print("Entra Cotxe? (Si (1) No (2)): ");
+        while (cotxe != 1 && cotxe != 2) {
+            cotxe = Utils.demanarEnter();
+        }
+        if (cotxe == 1){
+            cotxeBool = true;
+        }
+        System.out.print("Entra Moto? (Si (1) No (2)): ");
+        while (moto != 1 && moto != 2) {
+            moto = Utils.demanarEnter();
+        }
+        if (cotxe == 1){
+            motoBool = true;
+        }
+        System.out.print("Utilitza Xarxa elèctrica (Si (1) No (2)): ");
+        while (elec != 1 && elec != 2) {
+            elec = Utils.demanarEnter();
+        }
+        if (elec == 1){
+            elecBool = true;
+        }
+        System.out.print("Utilitza Aigua corrent (Si (1) No (2)): ");
+        while (aigua != 1 && aigua != 2) {
+            aigua = Utils.demanarEnter();
+        }
+        if (aigua == 1){
+            aiguaBool = true;
+        }
+        registreParcela(camping, numPar, dataInt, numAdults, numMenors, cotxeBool, motoBool, elecBool, aiguaBool);
+        
+        BibliotecaInterficieUsuari.missatgeExit();
+        System.out.println("prem 'Entrar' per a continuar");
+        BibliotecaInterficieUsuari.esperarEntrar();
+        Programa.mostrarMenuRegistreClient(camping);
     }
 }
