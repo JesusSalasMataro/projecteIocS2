@@ -25,7 +25,7 @@ public class GestorDadesCamping {
         return idPrimeraParcelaBuida;
     }
     
-    public int parcelesComprobar (Camping camping, int idParcela) {
+    public static int parcelesComprobar (Camping camping, int idParcela) {
         int idPrimeraParcelaAComprobar = -1;
         boolean parcelaPagada = false;
         int nombreParceles = camping.parceles.length;
@@ -36,12 +36,13 @@ public class GestorDadesCamping {
                 parcelaPagada = true;
                 idPrimeraParcelaAComprobar = camping.parceles[i].id;
             }
+            i++;
         }
         
         return idPrimeraParcelaAComprobar;
     }
     
-    public void desocuparParcela (Camping camping, int idParcela) {
+    public static void desocuparParcela (Camping camping, int idParcela) {
         camping.parceles[idParcela].dataEntrada = 0;
         camping.parceles[idParcela].numAdults = 0;
         camping.parceles[idParcela].numMenors = 0;
@@ -49,6 +50,8 @@ public class GestorDadesCamping {
         camping.parceles[idParcela].moto = false;
         camping.parceles[idParcela].xarxaElectricitat = false;
         camping.parceles[idParcela].aiguaCorrent = false;
+        camping.parceles[idParcela].pagat = false;
+        camping.parceles[idParcela].dataSortida = 0;
     }
     
     public static void registreParcela (Camping camping, int idParcela, int dataEntrada, int numAdults, int numMenors, boolean cotxe, boolean moto, boolean xarxaElec, boolean aigua) {
@@ -98,7 +101,7 @@ public class GestorDadesCamping {
         System.out.println("\t\t\t\t\t\t Total a pagar: " + (factura.CalcularTotalFactura()));  
     }
     
-    public static void mostraPriParBuida (Camping camping){
+    public static void mostraPriParBuida (Camping camping, Tarifa tarifa){
         System.out.println("****************************************************************************");
         System.out.print("**\t\t\t");
         System.out.print("Llista de parcel·les buides");
@@ -139,10 +142,10 @@ public class GestorDadesCamping {
         System.out.println("----------------------------------------------------------------------------");
         System.out.println("prem 'Entrar' per a continuar");
         BibliotecaInterficieUsuari.esperarEntrar();
-        Programa.mostrarMenuRegistreClient(camping);
+        Programa.mostrarMenuRegistreClient(camping, tarifa);
     }
     
-    public static void entradaParcela (Camping camping){
+    public static void entradaParcela (Camping camping, Tarifa tarifa){
         int numPar, dataInt, numAdults, numMenors, cotxe, moto, elec, aigua;
         String data;
         boolean cotxeBool, motoBool, elecBool, aiguaBool;
@@ -189,6 +192,68 @@ public class GestorDadesCamping {
         BibliotecaInterficieUsuari.missatgeExit();
         System.out.println("prem 'Entrar' per a continuar");
         BibliotecaInterficieUsuari.esperarEntrar();
-        Programa.mostrarMenuRegistreClient(camping);
+        Programa.mostrarMenuRegistreClient(camping, tarifa);
+    }
+    
+    public static void mostraParcelesControl (Camping camping, Tarifa tarifa){
+    System.out.println("****************************************************************************");
+    System.out.print("**\t\t\t");
+    System.out.print("Llista de parcel·les a control");
+    System.out.println("\t\t\t**");
+    System.out.println("****************************************************************************");
+    System.out.println();
+    System.out.println("Data: " + Utils.obtenirDataAvui() + "\tHora: " + Utils.obtenirHoraAra());
+    System.out.println();
+    System.out.println("----------------------------------------------------------------------------");
+    System.out.println("Els números de les parcel·les a controlar:");
+    System.out.println("----------------------------------------------------------------------------");
+    System.out.println();
+    int seguentParcela = 0;
+    int numParcelesVisualitzades = 0;
+
+    while (seguentParcela != -1) {
+        seguentParcela = parcelesComprobar(camping, seguentParcela);                
+
+        if (numParcelesVisualitzades % 5 != 0 && seguentParcela != -1) {
+            System.out.print(",");
+        }
+
+        if (seguentParcela != -1) {
+            System.out.print("\t" + Integer.toString(seguentParcela));
+            numParcelesVisualitzades++;
+
+            if (numParcelesVisualitzades % 5 == 0) {
+                System.out.println();
+            }                  
+        }
+
+        if (seguentParcela != -1) {
+            seguentParcela++;
+        }
+    }
+
+    System.out.println();
+    System.out.println("----------------------------------------------------------------------------");
+    System.out.println("prem 'Entrar' per a continuar");
+    BibliotecaInterficieUsuari.esperarEntrar();
+    Programa.mostrarMenuControlParcela(camping, tarifa);
+    }
+    
+    public static void buidarParcela (Camping camping, Tarifa tarifa){
+        int numPar, continuar;
+        BibliotecaInterficieUsuari.mostraTitol("Desocupar Parcel·la");
+        System.out.print("Número Parcel·la: ");
+        numPar = Utils.demanarEnter();
+        desocuparParcela(camping, numPar);
+        System.out.print("vols desocupar més parcel·les? 1 (Si) 2(No)");
+        continuar = Utils.demanarEnter();
+        while (continuar != 1 && continuar != 2) {
+            continuar = Utils.demanarEnter();
+        }
+        if (continuar == 1){
+            buidarParcela(camping, tarifa);
+        } else {
+            Programa.mostrarMenuControlParcela(camping, tarifa);
+        }
     }
 }
