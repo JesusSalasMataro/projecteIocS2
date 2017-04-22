@@ -83,6 +83,8 @@ public class Programa {
         } else if (opcio == 2){
             BibliotecaInterficieUsuari.mostraTitol("Registre Parcel·la");
             GestorDadesCamping.entradaParcela(camping);
+        } else {
+            mostrarMenuPrincipal(camping);
         }
     }
     
