@@ -38,7 +38,7 @@ public class Programa {
     }
     
     public static void mostrarMenuPrincipal(Camping camping, Tarifa tarifa) {
-        int opcio;     
+        int opcio = -1;     
         
         String[] opcionsMenu = new String[4];
         opcionsMenu[0] = "Registre Client";
@@ -47,24 +47,26 @@ public class Programa {
         opcionsMenu[3] = "Canvi Tarifa";
         BibliotecaInterficieUsuari.afegirFiles(15);
         BibliotecaInterficieUsuari.mostraTitol("Menú Principal");
-        opcio = BibliotecaInterficieUsuari.mostrarMenu(opcionsMenu, "Sortir");
         
-        switch (opcio) {
-            case 1:
-                mostrarMenuRegistreClient(camping, tarifa);
-                break;
-            case 2:
-                mostrarSortidaClient(camping, tarifa);
-                break;
-            case 3:
-                //Informacio parceles
-                mostrarMenuControlParcela(camping, tarifa);
-                break;
-            case 4:
-                EscollirTarifa();
-                break;
-        } 
-        
+        while (opcio != 0) {
+            opcio = BibliotecaInterficieUsuari.mostrarMenu(opcionsMenu, "Sortir");
+
+            switch (opcio) {
+                case 1:
+                    mostrarMenuRegistreClient(camping, tarifa);
+                    break;
+                case 2:
+                    mostrarSortidaClient(camping, tarifa);
+                    break;
+                case 3:
+                    //Informacio parceles
+                    mostrarMenuControlParcela(camping, tarifa);
+                    break;
+                case 4:
+                    EscollirTarifa();
+                    break;
+            }
+        }
     }
     
     public static void mostrarMenuRegistreClient(Camping camping, Tarifa tarifa) {
